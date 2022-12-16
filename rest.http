@@ -1,0 +1,19 @@
+GET https://example.com/comments/1 HTTP/1.1
+
+###
+
+GET http://localhost:8081/api/user/all?page=0&itemCount=10 HTTP/1.1
+
+###
+
+POST http://localhost:8081/api/user/login?email=test@test.com&password=somepass HTTP/1.1
+# content-type: application/json
+
+# {
+#     "name": "sample",
+#     "time": "Wed, 21 Oct 2015 18:27:50 GMT"
+# }
+
+###
+PUT http://localhost:8081/api/user?username=testusername HTTP/1.1
+Authorization: Basic dGVzdEB0ZXN0LmNvbTpzb21lcGFzcw==

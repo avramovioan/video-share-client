@@ -10,24 +10,12 @@ import { environment } from '../env/env';
   providedIn: 'root'
 })
 export class AuthService {
+  private loginUri = environment.API_URL+"user/login";
   private currentUserSubject: BehaviorSubject<User>;
-  public currentUser: Observable<User>;
-  private loginUri = environment.API_URL+"/login";
-  private _isLoggedIn = new BehaviorSubject<boolean>(false);
+  public isLoggedIn = new BehaviorSubject<boolean>(false);
 
   constructor(private http: HttpClient, private router: Router) {                                               //{}
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(atob(localStorage.getItem('currentUser') || "e30=")));
-    this.currentUser = this.currentUserSubject.asObservable();
-  }
-
-  private httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json'
-    })
-  };
-
-  public get isLoggedIn(): Observable<boolean>{
-    return this._isLoggedIn;
   }
 
   public get currentUserValue(): User {
@@ -41,25 +29,24 @@ export class AuthService {
   }
 
   login(email: string, password: string) {
-    let body = {
-      "Email": email,
-      "Password": password
-    };
-    return this.http.post<User>(this.loginUri, body, this.httpOptions)
-        .pipe(map(user => {
-            // store user details and jwt token in local storage to keep user logged in between page refreshes
-            var user_encode = btoa(JSON.stringify(user));
-            localStorage.setItem('currentUser', user_encode);
-            this.currentUserSubject.next(user);
-            this._isLoggedIn.next(true);
-            return user;
-        }));
+    return this.http.post<User>(this.loginUri, null, {
+      params: {
+        email: email,
+        password: password
+      }
+    }).pipe(map(user => {
+        // store user details and jwt token in local storage to keep user logged in between page refreshes
+        var credentialsEncoded = btoa(JSON.stringify(user.email+ ":" + user.password!));
+        localStorage.setItem('currentUser', credentialsEncoded);
+        this.currentUserSubject.next(user);
+        this.isLoggedIn.next(true);
+        return user;
+    }));
   }
   logout() {
     // remove user from local storage and set current user to an empty one
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(new User);
-    this._isLoggedIn.next(false);
     this.router.navigate(['login']);
   }
 
