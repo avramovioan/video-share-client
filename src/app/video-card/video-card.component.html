@@ -1,0 +1,12 @@
+<div class="card p-2 m-3" (click)="onClick()">
+    <iframe [src]="video.url | safe" allowfullscreen="true">
+    </iframe>
+    <div class="card-body">
+        <h5 class="card-title">{{video.title}}</h5>
+        <p class="card-text">{{video.description}}</p>
+        <div *ngIf="profileView" class="d-flex">
+            <button class="btn-primary p-1 "> Update </button>
+            <button class="btn-danger p-1 "> Delete </button>
+        </div>
+    </div>
+</div>

@@ -12,6 +12,11 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { ProfileComponent } from './profile/profile.component';
 import { VideoComponent } from './video/video.component';
+import { VideoCardComponent } from './video-card/video-card.component';
+import { SafePipe } from './shared/safe.pipe';
+import { FieldErrorMessageComponent } from './field-error-message/field-error-message.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [
@@ -22,12 +27,17 @@ import { VideoComponent } from './video/video.component';
     LoginComponent,
     RegisterComponent,
     ProfileComponent,
-    VideoComponent
+    VideoComponent,
+    VideoCardComponent,
+    SafePipe,
+    FieldErrorMessageComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },

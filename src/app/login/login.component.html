@@ -1,1 +1,39 @@
-<p>login works!</p>
+<div class="w-100 h-100 container-fluid">
+    <div class="row">
+        <div class="col-lg-6 col-12">
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                <h1 class="w-100 fw-bold">VideoShare</h1>
+                <h5 class="w-100 fw-normal" style="letter-spacing: 1px;">Sign into your account</h5>
+                <div class="form-outline mb-4">
+                    <label class="form-label">Email address</label>
+                    <input type="email" formControlName="email" class="form-control form-control-lg"
+                        [ngClass]="{ 'is-invalid': submitted && f.email.errors }" autocomplete="email"
+                        name="loginform" />
+                    <app-field-error-message [control]="emailControl"></app-field-error-message>
+                </div>
+
+                <div class="form-outline mb-4">
+                    <label class="form-label">Password</label>
+                    <input type="password" formControlName="password" class="form-control form-control-lg"
+                        [ngClass]="{ 'is-invalid': submitted && f.password.errors }" autocomplete="password"
+                        name="loginform" />
+                    <app-field-error-message [control]="passwordControl"></app-field-error-message>
+                </div>
+
+                <div class="pt-1 mb-4">
+                    <button class="btn btn-dark btn-lg btn-block" type="submit"
+                        [disabled]="!loginForm.valid || loading">
+                        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                        Login
+                    </button>
+                </div>
+
+                <a class="small text-muted" href="#!">Forgot password?</a>
+                <p class="mb-5 pb-lg-2" style="color: #393f81;">Don't have an account? <a href="register"
+                        style="color: #393f81;">Register here</a></p>
+                <a href="#!" class="small text-muted">Terms of use.</a>
+                <a href="#!" class="small text-muted">Privacy policy</a>
+            </form>
+        </div>
+    </div>
+</div>

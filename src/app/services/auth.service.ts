@@ -10,7 +10,7 @@ import { environment } from '../env/env';
   providedIn: 'root'
 })
 export class AuthService {
-  private loginUri = environment.API_URL+"user/login";
+  private loginUri = environment.API_URL+"/user/login";
   private currentUserSubject: BehaviorSubject<User>;
   public isLoggedIn = new BehaviorSubject<boolean>(false);
 
