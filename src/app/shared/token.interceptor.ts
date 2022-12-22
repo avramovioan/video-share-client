@@ -1,20 +1,19 @@
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';  
-import { AuthService } from '../services/auth.service';  
+import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';    
 import { Observable } from "rxjs";
 import { Injectable } from '@angular/core';
   
   @Injectable()  
   export class TokenInterceptor implements HttpInterceptor {
 
-    constructor(private authService: AuthService) { }
+    constructor() { }
     
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // add header with basic auth
-        const token = localStorage.getItem('currentUesr');
+        const token = localStorage.getItem('token');
         if(token != null){
             req = req.clone({
                 setHeaders: { 
-                    Authorization: `Basic ${localStorage.getItem('currentUser')}`
+                    Authorization: `Basic ${token}`
                 }
             });
         }

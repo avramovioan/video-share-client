@@ -1,1 +1,69 @@
-<p>profile works!</p>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-4 col-12 border-left">
+            <div class="" *ngIf="isDataAvailable">
+                <div style="margin-top: 2em;">
+                    <h4 class="text-right">Profile Settings</h4>
+                </div>
+                <form [formGroup]="updateAccountForm" (ngSubmit)="onSubmit()">
+                    <div class="row mt-3 ">
+                        <div class="col-md-12">
+                            <label class="labels">Email</label>
+                            <input type="text" [attr.disabled]="true" formControlName="email"
+                                class="form-control  border-success" placeholder="Email address"
+                                autocomplete="new_email" name="new_password">
+                            <app-field-error-message [control]="emailControl"></app-field-error-message>
+                        </div>
+                    </div>
+                    <div class="row mt-3 ">
+                        <div class="col-md-12">
+                            <label class="labels">Username</label>
+                            <input type="text" [attr.disabled]="true" formControlName="username"
+                                class="form-control  border-success" placeholder="Username" autocomplete="username"
+                                name="username">
+                            <app-field-error-message [control]="usernameControl"></app-field-error-message>
+                        </div>
+                    </div>
+                    <div class="row mt-3 ">
+                        <div class="col-md-12">
+                            <label class="labels">Current password <span class="text-muted">(reqired for the update
+                                    process)</span></label>
+                            <input type="password" formControlName="current_password"
+                                class="form-control  border-success " placeholder="Current password"
+                                autocomplete="current_password" name="new_password">
+                            <app-field-error-message [control]="oldPassword_Control"></app-field-error-message>
+                        </div>
+                    </div>
+                    <div class="row mt-3 ">
+                        <div class="col-md-6">
+                            <label class="labels">New Password <span class="text-muted">(optional)</span></label>
+                            <input type="password" formControlName="new_password" class="form-control  border-success "
+                                placeholder="New password" autocomplete="new_password" name="new_password">
+                            <app-field-error-message [control]="newPasswordControl"></app-field-error-message>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="labels">Confirm new password <span
+                                    class="text-muted">(optional)</span></label>
+                            <input type="password" formControlName="confirm_new_password"
+                                class="form-control  border-success " placeholder="Confirm new password"
+                                autocomplete="confirm_new_password" name="new_password">
+                            <app-field-error-message [control]="newPassword_confirmControl"></app-field-error-message>
+                        </div>
+                    </div>
+                    <div class="mt-5 text-center">
+                        <button class="btn btn-success me-3" [disabled]="!updateAccountForm.valid" type="submit">Save
+                            Changes</button>
+                        <button class="btn btn-danger me-3" (click)="onDelete()" type="button">Delete</button>
+                        <button class="btn btn-primary" (click)="onLogout()" type="button">Logout</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-lg-8 col-12 d-flex justify-content-start flex-wrap">
+            <div *ngFor="let video of videos" class="ms-2">
+                <app-video-card [videoModel]="video" [profileView]="true"
+                    (deleteEvent)="removeItem($event)"></app-video-card>
+            </div>
+        </div>
+    </div>
+</div>

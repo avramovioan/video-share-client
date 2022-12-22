@@ -1,12 +1,56 @@
-<div class="card p-2 m-3" (click)="onClick()">
+<div class="card p-2 m-3">
     <iframe [src]="video.url | safe" allowfullscreen="true">
     </iframe>
     <div class="card-body">
         <h5 class="card-title">{{video.title}}</h5>
         <p class="card-text">{{video.description}}</p>
-        <div *ngIf="profileView" class="d-flex">
-            <button class="btn-primary p-1 "> Update </button>
-            <button class="btn-danger p-1 "> Delete </button>
+        <div *ngIf="profileView" class="card-container">
+            <div class="row">
+                <button class="col-5 btn btn-primary p-1 ms-3" data-bs-toggle="modal"
+                    data-bs-target="#updateVideoModal">
+                    Update </button>
+                <button class="col-5 btn btn-danger p-1 ms-3" (click)="onDelete()"> Delete </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="updateVideoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Video Update</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="updateFormGroup">
+                    <div class="form-outline mb-4">
+                        <label class="form-label">Title</label>
+                        <input type="email" formControlName="title" class="form-control form-control-lg"
+                            [ngClass]="{ 'is-invalid': submitted && f.title.errors }" />
+                        <app-field-error-message [control]="titleControl"></app-field-error-message>
+                    </div>
+
+                    <div class="form-outline mb-4">
+                        <label class="form-label">Url</label>
+                        <input type="text" formControlName="url" class="form-control form-control-lg"
+                            [ngClass]="{ 'is-invalid': submitted && f.url.errors }" />
+                        <app-field-error-message [control]="urlControl"></app-field-error-message>
+                    </div>
+
+                    <div class="form-outline mb-4">
+                        <label class="form-label">Description</label>
+                        <textarea type="password" formControlName="description" class="form-control form-control-lg"
+                            [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
+                        <app-field-error-message [control]="descriptionControl"></app-field-error-message>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" (click)="onSubmit()">Save changes</button>
+            </div>
         </div>
     </div>
 </div>

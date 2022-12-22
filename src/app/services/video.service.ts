@@ -21,6 +21,9 @@ export class VideoService {
       }
     }); 
   }
+  getMyVideos(): Observable<Video[]>{
+    return this.http.get<Video[]>(this.url+'/myVideos');
+  }
   createVideo(video: Video): Observable<Video> {
     return this.http.post<Video>(this.url, video);
   }

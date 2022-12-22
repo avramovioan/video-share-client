@@ -23,11 +23,15 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
    // private alertService : AlertService
-  ) { }
+  ) {
+    if (this.authService.isLoggedIn) {
+      this.router.navigate(['/']);
+    }
+   }
 
   ngOnInit(): void {
     this.buildForm();
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || 'home';
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
   get f(): any { return this.loginForm.controls; }
@@ -39,15 +43,16 @@ export class LoginComponent implements OnInit {
       return;
     }
     this.loading = true;
-    this.authService.login(this.f.email.value, this.f.password.value).subscribe(
-        next => {
+    this.authService.login(this.f.email.value, this.f.password.value).subscribe({
+      next: () => {
+        this.loading = false;
+        this.router.navigate([this.returnUrl]);
+      },
+      error: (error) => {
+          alert(error.message);
           this.loading = false;
-          this.router.navigate([this.returnUrl]);
-        },
-        error => {
-            alert(error);
-            this.loading = false;
-        });
+      }
+    });
   }
   redirectToRegister(){
     this.router.navigate(['register']);

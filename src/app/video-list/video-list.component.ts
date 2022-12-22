@@ -10,7 +10,7 @@ import { VideoService } from '../services/video.service';
 })
 export class VideoListComponent implements OnInit, OnDestroy{
 
-  
+
   public videos: Video[];
   public videosLoaded: boolean;
 
@@ -23,7 +23,7 @@ export class VideoListComponent implements OnInit, OnDestroy{
         this.videos = res;
         this.videosLoaded = true;
       },
-      error: (err) => alert(err) 
+      error: (err) => alert(err.message) 
     });
   }
   ngOnDestroy(): void {
