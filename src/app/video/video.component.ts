@@ -19,8 +19,10 @@ export class VideoComponent  implements OnInit{
   comments: Comment[];
   isDataLoaded: boolean;
   submitted: boolean;
+  updateSubmitted: boolean;
 
   addCommentFormGroup: FormGroup;
+  updateCommentFormGroup: FormGroup;
   contentControl: FormControl;
 
   constructor(private router: Router,
@@ -69,16 +71,49 @@ export class VideoComponent  implements OnInit{
     }
     this.buildCommentAddForm();
   }
-  get f(): any { return this.addCommentFormGroup.controls; }
+  
+  get _add_form(): any { return this.addCommentFormGroup.controls; }
+  get _update_form(): any { return this.updateCommentFormGroup.controls; }
 
   buildCommentAddForm(): void{
     this.addCommentFormGroup = this.formBuilder.group({
       content: ['', Validators.required],
     });
-    this.contentControl = this.f.content as FormControl;
+    this.contentControl = this._add_form.content as FormControl;
   }
 
-  onSubmit(): void{
+  buildCommentUpdateForm(comment: Comment): FormGroup{
+    this.updateCommentFormGroup = this.formBuilder.group({
+      content: [comment.content, Validators.required],
+    });
+    return this.updateCommentFormGroup;
+  }
+
+  onCommentUpdate(commentToUpdate: Comment): void{
+    this.updateSubmitted = true;
+    if(this.updateCommentFormGroup.invalid){
+      return;
+    }
+    commentToUpdate.content = this._update_form.content.value;
+    this.commentService.updateComment(commentToUpdate).subscribe({
+      next: (comment) => {
+        commentToUpdate = comment;
+        this.updateSubmitted = false;
+        const current = this.comments.find(c => c.id == commentToUpdate.id);
+        if(current!= null) {
+          const index = this.comments.indexOf(current, 0);
+          if(index != -1){
+            this.comments[index] = commentToUpdate;
+          }
+        }
+      },
+      error: (err) => {
+        alert(err.message);
+      }
+    })
+  }
+
+  onAddSubmit(): void{
     this.submitted = true;
     if(this.addCommentFormGroup.invalid){
       return;
@@ -98,9 +133,14 @@ export class VideoComponent  implements OnInit{
     });
   }
 
-  isOwner(comment:Comment): boolean{
+  canDelete(comment:Comment): boolean{
     const user: User = this.authService.currentUserValue;
     return comment.owner?.id == user.id || this.video.ownerId == user.id;
+  }
+
+  canUpdate(comment:Comment): boolean{
+    const user: User = this.authService.currentUserValue;
+    return comment.owner?.id == user.id;
   }
 
   onCommentDelete(comment: Comment): void{

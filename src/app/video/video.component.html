@@ -17,15 +17,15 @@
                 <div class="col-12">
                     <div class="card flex-lg-row mb-4 box-shadow h-lg-250">
                         <div class="card-body d-flex w-100">
-                            <form [formGroup]="addCommentFormGroup" (submit)="onSubmit()" class="w-100">
+                            <form [formGroup]="addCommentFormGroup" (submit)="onAddSubmit()" class="w-100">
                                 <div class="form-outline mb-4">
                                     <label class="form-label">Add Comment</label>
                                     <textarea class="w-100" type="text" formControlName="content"
                                         class="form-control form-control-lg"
-                                        [ngClass]="{ 'is-invalid': submitted && f.content.errors }"> </textarea>
+                                        [ngClass]="{ 'is-invalid': submitted && _add_form.content.errors }"> </textarea>
                                     <app-field-error-message [control]="contentControl"></app-field-error-message>
                                 </div>
-                                <button type="submit" class="btn btn-primary float-end">Add</button>
+                                <button type="submit" class="btn btn-success float-end">Add</button>
                             </form>
                         </div>
                     </div>
@@ -35,10 +35,23 @@
                 <div class="card flex-lg-row mb-4 box-shadow h-lg-250">
                     <div class="card-body d-flex flex-column align-items-start">
                         <div class="mb-1 text-muted">{{comment.owner!.username}}</div>
+                        <!-- <form *ngIf="canUpdate(comment)" [formGroup]="buildCommentUpdateForm(comment)" class="w-100">
+                            <div class="form-outline">
+                                <textarea class="w-100" type="text" formControlName="content"
+                                    class="form-control form-control-lg"
+                                    [ngClass]="{ 'is-invalid': updateSubmitted && _update_form.content.errors }"> </textarea>
+                                <app-field-error-message [control]="_update_form.content"></app-field-error-message>
+                            </div>
+                        </form> -->
+                        <!-- <p *ngIf="!canUpdate(comment)" class="card-text mb-auto">{{comment.content}}</p> -->
                         <p class="card-text mb-auto">{{comment.content}}</p>
                     </div>
-                    <div class="float-end m-2" *ngIf="isOwner(comment)">
-                        <button class="btn btn-danger" (click)="onCommentDelete(comment)"> Delete </button>
+                    <div class="d-flex flex-column m-2">
+                        <button class="btn btn-danger mb-1" *ngIf="canDelete(comment)"
+                            (click)="onCommentDelete(comment)">
+                            Delete </button>
+                        <!-- <button class="btn btn-primary" *ngIf="canUpdate(comment)"
+                            (click)="onCommentUpdate(comment)">Update</button> -->
                     </div>
                 </div>
             </div>
