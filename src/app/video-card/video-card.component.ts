@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Video } from '../models/video';
 import { VideoService } from '../services/video.service';
 
@@ -19,7 +19,9 @@ export class VideoCardComponent implements OnInit {
   video: Video;
   isDataAvailable: boolean;
     
-  constructor(private videoService: VideoService){ }
+  constructor(private videoService: VideoService,
+              private router: Router,
+              private route: ActivatedRoute){ }
   
   ngOnInit(): void {
     this.video = this.videoModel;
@@ -38,5 +40,9 @@ export class VideoCardComponent implements OnInit {
     this.videoService.currentVideo.next(this.video);
     this.updateEvent.emit(this.video);
   }
-  
+
+  onVideoOpen(): void{
+    this.videoService.currentVideo.next(this.video);
+    this.router.navigate([`videos/${this.video.id}`]);
+  } 
 }

@@ -3,7 +3,7 @@
         <iframe [src]="video.url | safe" allowfullscreen="true">
         </iframe>
     </div>
-    <div class="card-body">
+    <div class="card-body btn" (click)="onVideoOpen()">
         <div class="text-truncate" style="max-width: 270px;">
             <h5 class="card-title">{{video.title}}</h5>
             <p class="card-text">{{video.description}}</p>

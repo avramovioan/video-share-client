@@ -26,7 +26,7 @@ export class VideoFormComponent implements OnInit {
   get f(): any { return this.videoFormGroup.controls; }
 
   ngOnInit(): void {
-    this.videoService.currentVideoValue.subscribe({
+    this.videoService.currentVideoObservable.subscribe({
       next: (video) => {
         this.video = video;
         this.buildUpdateForm(video);

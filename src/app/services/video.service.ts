@@ -18,8 +18,12 @@ export class VideoService {
     this.currentVideo = new BehaviorSubject(new Video);
    }
 
-  get currentVideoValue(): Observable<Video>{
+  get currentVideoObservable(): Observable<Video>{
     return this.currentVideo.asObservable();
+  }
+
+  get currentVideoValue(): Video{
+    return this.currentVideo.value;
   }
 
   getVideos(page: number, itemCount: number) : Observable<Video[]>{
@@ -32,6 +36,10 @@ export class VideoService {
   }
   getMyVideos(): Observable<Video[]>{
     return this.http.get<Video[]>(this.url+'/myVideos');
+  }
+
+  getVideoById(videoId: number): Observable<Video>{
+    return this.http.get<Video>(this.url+`/${videoId}`);
   }
   createVideo(video: Video): Observable<Video> {
     return this.http.post<Video>(this.url, video);

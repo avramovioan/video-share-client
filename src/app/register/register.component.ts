@@ -61,7 +61,7 @@ export class RegisterComponent implements OnInit {
               alert("Something went wrong with user login.");
               return;
             }
-            this.router.navigate(['home']);
+            this.router.navigate(['']);
           },
           error: (err) => {
             alert(err.message);

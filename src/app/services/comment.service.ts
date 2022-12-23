@@ -24,10 +24,10 @@ export class CommentService {
   createVideoComment(videoId: number, comment: Comment): Observable<Comment> {
     return this.http.post<Comment>(`${this.url}/${videoId}`, comment);
   }
-  updateVideo(comment: Comment): Observable<Comment>{
+  updateComment(comment: Comment): Observable<Comment>{
     return this.http.put<Comment>(`${this.url}/${comment.id}`, comment);
   }
-  deleteVideo(commentId: number): Observable<any>{
+  deleteComment(commentId: number): Observable<any>{
     return this.http.delete<any>(`${this.url}/${commentId}`);
   }
 }
