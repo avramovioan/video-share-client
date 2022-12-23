@@ -16,7 +16,9 @@ import { VideoCardComponent } from './video-card/video-card.component';
 import { SafePipe } from './shared/safe.pipe';
 import { FieldErrorMessageComponent } from './field-error-message/field-error-message.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { VideoFormComponent } from './video-form/video-form.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     VideoComponent,
     VideoCardComponent,
     SafePipe,
-    FieldErrorMessageComponent
+    FieldErrorMessageComponent,
+    VideoFormComponent
   ],
   imports: [
     BrowserModule,
@@ -38,6 +41,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MatDialogModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },

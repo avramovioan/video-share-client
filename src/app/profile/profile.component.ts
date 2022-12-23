@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from '../models/user';
@@ -14,6 +14,10 @@ import { MustMatch } from '../shared/form.validator';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
+
+  @ViewChild('closeCreateModalbutton') closeCreateModalbutton: any;
+  @ViewChild('closeUpdateModalbutton') closeUpdateModalbutton: any;
+  @ViewChild('openModal') openModal: any;
 
   updateAccountForm: FormGroup;
   emailControl: FormControl;
@@ -125,5 +129,33 @@ export class ProfileComponent implements OnInit {
     if(videoIndex != -1){
       this.videos.splice(videoIndex,1);
     }
+  }
+
+  updateItem(videoToUpdate:Video): void{
+    this.openModal.nativeElement.click();
+  }
+
+  onFormSubmit(video: Video){
+    this.videos.push(video);
+    this.closeCreateModalbutton.nativeElement.click();
+  }
+
+  onFormUpdateSubmit(video: Video): void{
+    const vid = this.videos.find(v => v.id == video.id);
+    console.log("outside");
+    if(vid != undefined){
+      console.log(vid.id);
+      console.log("inside1");
+      const index = this.videos.indexOf(vid); 
+      if (index != -1){
+        console.log("inside2");
+        this.videos[index] = video;
+      }
+    }
+    this.closeUpdateModalbutton.nativeElement.click();
+  }
+
+  onAddVideoClick(): void{
+    this.videoService.currentVideo.next(new Video);
   }
 }

@@ -1,0 +1,23 @@
+<form [formGroup]="videoFormGroup">
+    <div class="form-outline mb-4">
+        <label class="form-label">Title</label>
+        <input type="email" formControlName="title" class="form-control form-control-lg"
+            [ngClass]="{ 'is-invalid': submitted && f.title.errors }" />
+        <app-field-error-message [control]="titleControl"></app-field-error-message>
+    </div>
+
+    <div class="form-outline mb-4">
+        <label class="form-label">Url</label>
+        <input type="text" formControlName="url" class="form-control form-control-lg"
+            [ngClass]="{ 'is-invalid': submitted && f.url.errors }" />
+        <app-field-error-message [control]="urlControl"></app-field-error-message>
+    </div>
+
+    <div class="form-outline mb-4">
+        <label class="form-label">Description</label>
+        <textarea type="password" formControlName="description" class="form-control form-control-lg"
+            [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
+        <app-field-error-message [control]="descriptionControl"></app-field-error-message>
+    </div>
+    <button type="submit" class="btn btn-primary float-end" (click)="onSubmit()">Save</button>
+</form>

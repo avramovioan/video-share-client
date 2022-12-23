@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import {Video} from '../models/video'
 import {environment} from '../env/env'
+import { BehaviorSubject, Observable } from 'rxjs';
+
 
 
 @Injectable({
@@ -10,8 +11,16 @@ import {environment} from '../env/env'
 })
 export class VideoService {
 
+  public currentVideo: BehaviorSubject<Video>;
+
   private url: string = environment.API_URL+'/video';
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    this.currentVideo = new BehaviorSubject(new Video);
+   }
+
+  get currentVideoValue(): Observable<Video>{
+    return this.currentVideo.asObservable();
+  }
 
   getVideos(page: number, itemCount: number) : Observable<Video[]>{
     return this.http.get<Video[]>(this.url+'/all', {

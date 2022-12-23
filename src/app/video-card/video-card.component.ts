@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router, TitleStrategy } from '@angular/router';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { Video } from '../models/video';
 import { VideoService } from '../services/video.service';
 
@@ -13,64 +13,30 @@ export class VideoCardComponent implements OnInit {
   @Input() videoModel: Video;
   @Input() profileView: boolean = false;
   @Output() deleteEvent: EventEmitter<Video> = new EventEmitter<Video>();
+  @Output() updateEvent: EventEmitter<Video> = new EventEmitter<Video>();
+  @ViewChild('closebutton') closebutton: any;
+ 
   video: Video;
-  submitted: boolean = false;
-
-  updateFormGroup: FormGroup;
-  titleControl: FormControl;
-  urlControl : FormControl;
-  descriptionControl: FormControl;
-  
-  constructor(private router: Router,
-              private videoService: VideoService,
-              private formBuilder: FormBuilder){ }
+  isDataAvailable: boolean;
+    
+  constructor(private videoService: VideoService){ }
   
   ngOnInit(): void {
     this.video = this.videoModel;
-    this.buildUpdateForm();
+    this.isDataAvailable = true;
   }
 
-  get f(): any { return this.updateFormGroup.controls; }
-
   onDelete(): void{
-    this.videoService.deleteVideo(this.video.id).subscribe({
+    this.videoService.deleteVideo(this.video.id!).subscribe({
       next: () => {
         this.deleteEvent.emit(this.video);
       }
     })
   }
 
-  buildUpdateForm(): void{
-    this.updateFormGroup = this.formBuilder.group({
-      title: [this.video.title, Validators.required],
-      url: [this.video.url, Validators.required],
-      description: [this.video.description]
-    });
-    this.titleControl = this.f.title as FormControl;
-    this.urlControl = this.f.url as FormControl;
-    this.descriptionControl = this.f.description as FormControl;
+  onUpdateClick(): void{
+    this.videoService.currentVideo.next(this.video);
+    this.updateEvent.emit(this.video);
   }
-
-  onSubmit(): void{
-    this.submitted = true;
-    if(this.updateFormGroup.invalid){
-      return;
-    }
-    const videoToUpdate: Video = {
-      id: this.video.id,
-      description: this.descriptionControl.value,
-      url: this.urlControl.value,
-      title: this.titleControl.value
-    }
-    this.videoService.updateVideo(videoToUpdate).subscribe({
-      next: (video) => {
-        this.video = video;
-      },
-      error: (err) => {
-        alert(err.message);
-      }
-    })
-  }
-
   
 }

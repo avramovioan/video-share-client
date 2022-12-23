@@ -1,5 +1,5 @@
 export class Video{
-    id: number;
+    id?: number;
     title: string;
     url: string; 
     description:string;  
