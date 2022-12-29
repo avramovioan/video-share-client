@@ -4,6 +4,7 @@
             <div class="col-12">
                 <iframe class="w-100" style="height: 30rem;" allowfullscreen [src]="video.url | safe"></iframe>
                 <h1 class="display-7 font-italic">{{video.title}}</h1>
+                <h5 class="font-italic">Owner: {{video.owner!.username}} </h5>
                 <div class="w-100 text-wrap" style="width: 10rem;">
                     <p class="lead my-3">
                         {{video.description}}
@@ -50,11 +51,32 @@
                         <button class="btn btn-danger mb-1" *ngIf="canDelete(comment)"
                             (click)="onCommentDelete(comment)">
                             Delete </button>
-                        <!-- <button class="btn btn-primary" *ngIf="canUpdate(comment)"
-                            (click)="onCommentUpdate(comment)">Update</button> -->
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateCommentModal"
+                            (click)="onUpdateCommentClick(comment)"> Update </button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="updateCommentModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Comment Update</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <app-comment-modal (formSubmitionEvent)="onFormUpdateSubmit($event)"></app-comment-modal>
+            </div>
+            <div class="modal-footer">
+                <button type="button" #updateCommentModal class="btn btn-secondary"
+                    data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <button id="openModal" #openModal style="display:none" data-bs-toggle="modal"
+    data-bs-target="#updateCommentModal"></button> -->

@@ -1,0 +1,9 @@
+<form [formGroup]="commentUpdateGroup">
+    <div class="form-outline mb-4">
+        <label class="form-label">Content</label>
+        <textarea type="text" formControlName="content" class="form-control form-control-lg"
+            [ngClass]="{ 'is-invalid': submitted && f.content.errors }"> </textarea>
+        <app-field-error-message [control]="contentControl"></app-field-error-message>
+    </div>
+    <button type="submit" class="btn btn-primary float-end" (click)="onSubmit()">Save</button>
+</form>

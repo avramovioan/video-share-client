@@ -19,6 +19,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { VideoFormComponent } from './video-form/video-form.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
+import { CommentModalComponent } from './comment-modal/comment-modal.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     VideoCardComponent,
     SafePipe,
     FieldErrorMessageComponent,
-    VideoFormComponent
+    VideoFormComponent,
+    CommentModalComponent
   ],
   imports: [
     BrowserModule,

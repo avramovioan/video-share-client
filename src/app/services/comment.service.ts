@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import {Comment} from '../models/comment'
 import {environment} from '../env/env'
 
@@ -10,8 +10,19 @@ import {environment} from '../env/env'
 })
 export class CommentService {
 
+  public currentComment: BehaviorSubject<Comment>;
   private url: string = environment.API_URL+'/comment';
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    this.currentComment = new BehaviorSubject(new Comment);
+  }
+
+  get currentCommentObservable(): Observable<Comment>{
+    return this.currentComment.asObservable();
+  }
+
+  get currentCommentValue(): Comment{
+    return this.currentComment.value;
+  }
 
   getAllCommentsByVideoId(videoId: number, page: number, itemCount: number) : Observable<Comment[]>{
     return this.http.get<Comment[]>(`${this.url}/${videoId}`, {

@@ -38,6 +38,15 @@ export class VideoService {
     return this.http.get<Video[]>(this.url+'/myVideos');
   }
 
+  searchVideos(videoTitle: string, username: string): Observable<Video[]>{
+    return this.http.get<Video[]>(this.url+'/search', {
+      params:{
+        title: videoTitle,
+        username: username
+      }
+    })
+  }
+
   getVideoById(videoId: number): Observable<Video>{
     return this.http.get<Video>(this.url+`/${videoId}`);
   }

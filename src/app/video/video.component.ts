@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { Video } from '../models/video';
 import { CommentService } from '../services/comment.service';
@@ -15,6 +15,8 @@ import { User } from '../models/user';
 })
 export class VideoComponent  implements OnInit{
 
+  @ViewChild('updateCommentModal') closeUpdateModalbutton: any;
+
   video: Video;
   comments: Comment[];
   isDataLoaded: boolean;
@@ -25,6 +27,7 @@ export class VideoComponent  implements OnInit{
   updateCommentFormGroup: FormGroup;
   contentControl: FormControl;
 
+
   constructor(private router: Router,
               private videoService: VideoService,
               private commentService: CommentService,
@@ -33,8 +36,7 @@ export class VideoComponent  implements OnInit{
               private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.video = this.videoService.currentVideoValue;
-    if(this.video.id == null) {
+      //this.video = this.videoService.currentVideoValue;
       this.route.params.subscribe({
         next: (parameters) => {
           const videoId = parameters['videoId'];
@@ -61,14 +63,6 @@ export class VideoComponent  implements OnInit{
           alert(err.message);
         }
       });
-    }else {
-      this.commentService.getAllCommentsByVideoId(this.video.id!,0, 10).subscribe({
-        next: (data) => {
-          this.comments = data;
-          this.isDataLoaded = true;
-        }
-      });
-    }
     this.buildCommentAddForm();
   }
   
@@ -155,5 +149,20 @@ export class VideoComponent  implements OnInit{
         alert(err.message);
       }
     });
+  }
+
+  onFormUpdateSubmit(comment: Comment): void{
+    const comm = this.comments.find(c => c.id == comment.id);
+    if(comm != undefined){
+      const index = this.comments.indexOf(comm); 
+      if (index != -1){
+        this.comments[index] = comment;
+      }
+    }
+    this.closeUpdateModalbutton.nativeElement.click();
+  }
+
+  onUpdateCommentClick(comment: Comment): void {
+    this.commentService.currentComment.next(comment);
   }
 }

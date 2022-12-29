@@ -1,3 +1,28 @@
+<form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+
+    <!-- <div class="d-flex align-items-center mb-3 pb-1">
+        <span class="h1 fw-bold mb-0">VideoShare</span>
+    </div> -->
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-5 col-12 mt-2">
+                <input type="email" formControlName="videoTitle" class="form-control form-control-lg"
+                    placeholder="title.." />
+            </div>
+            <div class="col-lg-5 col-12 mt-2">
+                <input type="email" formControlName="username" class="form-control form-control-lg"
+                    placeholder="username.." />
+            </div>
+            <div class="col-lg-1 col-12 mt-2">
+                <button class="btn btn-dark btn-lg" type="submit">
+                    Search
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
 <div class="d-flex justify-content-start flex-wrap" *ngIf="videosLoaded">
     <div *ngFor="let video of videos">
         <app-video-card [videoModel]="video"></app-video-card>
