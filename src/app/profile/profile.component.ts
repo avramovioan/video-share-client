@@ -102,7 +102,7 @@ export class ProfileComponent implements OnInit {
   }
 
   onDelete(): void{
-    this.userService.deleteUser(this.currentUser.id!).subscribe({
+    this.userService.deleteUser().subscribe({
       next: () => {
         this.authService.logout();
       },
@@ -142,13 +142,9 @@ export class ProfileComponent implements OnInit {
 
   onFormUpdateSubmit(video: Video): void{
     const vid = this.videos.find(v => v.id == video.id);
-    console.log("outside");
     if(vid != undefined){
-      console.log(vid.id);
-      console.log("inside1");
       const index = this.videos.indexOf(vid); 
       if (index != -1){
-        console.log("inside2");
         this.videos[index] = video;
       }
     }

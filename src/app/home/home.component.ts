@@ -13,16 +13,12 @@ export class HomeComponent {
   {}
 
   public OnClickRegister(): void{
-    console.log("test");
     const user: User = {
       email: 'test@test.com',
       username: 'someusername',
       password: 'somepass',
       id: 0
     };
-    this.userService.createUser(user).subscribe(user => {
-      console.log(user.email);
-      console.log(user.id);
-    });
+    this.userService.createUser(user).subscribe(user => {});
   }
 }

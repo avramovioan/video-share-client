@@ -34,7 +34,7 @@ export class UserService {
       }
     });
   }
-  deleteUser(user_id: number): Observable<boolean>{
-    return this.http.delete<boolean>(`${this.url}/${user_id}`);
+  deleteUser(): Observable<boolean>{
+    return this.http.delete<boolean>(`${this.url}`);
   }
 }
