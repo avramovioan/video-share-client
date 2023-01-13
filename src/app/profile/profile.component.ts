@@ -78,25 +78,35 @@ export class ProfileComponent implements OnInit {
   
   onSubmit(): void{
     //check if new password is provided
-    if(this.newPasswordControl.value.lenght != 0){
+    let relog = false;
+    if(this.newPasswordControl.value){
       this.newPassword_confirmControl.markAsTouched();
+      relog = true;
     }
     const userToUpdate: User = {
       email: this.emailControl.value,
       username: this.usernameControl.value,
-      password: this.newPasswordControl.value.lenght != 0 ? this.newPasswordControl.value : ''
+      password: relog ? this.newPasswordControl.value : ''
     }
     this.userService.updateUser(userToUpdate).subscribe({
       next: (updatedUser) => {
         if(updatedUser){
           this.currentUser.email = updatedUser.email;
           this.currentUser.username = updatedUser.username;
-          this.authService.recreateCurrentUser(updatedUser);
-          this.reloadPage();
+          if(relog){
+            this.authService.login(userToUpdate.email, userToUpdate.password!).subscribe({
+              next: () => {
+                this.reloadPage();
+              }
+            });
+          } else {
+            this.authService.recreateCurrentUser(updatedUser);
+            this.reloadPage();
+          }
         }
       },
-      error: (message) => {
-        alert(message);
+      error: (err) => {
+        alert(err.message);
       }
     });
   }
